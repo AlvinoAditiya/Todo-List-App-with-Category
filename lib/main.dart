@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_app_with_category/routes/pages.dart';
+import 'package:todo_list_app_with_category/routes/routes.dart';
 import 'pages/login_page.dart';
 
 void main() {
@@ -18,7 +20,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true, 
       ),
-      home: LoginPage(),
+      // initialBinding: mainBinding(),
+      initialRoute: AppRoutes.loginpage,
+      getPages: AppPages.pages,
     );
   }
 }
