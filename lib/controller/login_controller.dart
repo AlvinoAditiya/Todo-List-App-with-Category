@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_app_with_category/routes/routes.dart';
 import '../pages/dashboard_page.dart';
 
 class LoginController extends GetxController {
   final usernameC = TextEditingController();
   final passwordC = TextEditingController();
 
-  // Cuma 1 variabel loading
   var isLoading = false.obs;
 
   void login() async {
@@ -28,8 +28,9 @@ class LoginController extends GetxController {
     await Future.delayed(const Duration(seconds: 2));
 
     // Dummy login
-    if (usernameC.text.trim() == "alvino" && passwordC.text.trim() == "12345") {
-      Get.offAll(() => const DashboardPage());
+    if (usernameC.text.trim() == "alvino" && passwordC.text.trim() == "arya") {
+      // Pindah halaman ke Dashboard menggunakan named route
+      Get.offNamed(AppRoutes.dashboardpage);
     } else {
       Get.snackbar(
         "Login Gagal",
