@@ -7,8 +7,5 @@ class AppPages{
   static final pages = [
     GetPage(name: AppRoutes.loginpage, page: ()=> LoginPage()),
     GetPage(name: AppRoutes.dashboardpage, page: ()=> DashboardPage()),
-   
-
-
   ];
 }
