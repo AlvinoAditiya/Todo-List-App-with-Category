@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: isPassword,
-      keyboardType:  TextInputType.text,
+        keyboardType: isPassword ? TextInputType.number: TextInputType.text,
       // inputFormatters: isPassword ? [FilteringTextInputFormatter.digitsOnly] : [],
       decoration: InputDecoration(
         hintText: hint,
