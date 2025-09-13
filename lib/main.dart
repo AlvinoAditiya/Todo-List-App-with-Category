@@ -20,7 +20,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true, 
       ),
       // initialBinding: mainBinding(),
-      initialRoute: AppRoutes.loginpage,
+      // initialRoute: AppRoutes.loginpage,
+      // getPages: AppPages.pages,
+
+      // initialBinding: MainBinding(), // <- Binding dipasang di sini
+      initialRoute: AppRoutes.loginpage, // Pastikan nama route benar
       getPages: AppPages.pages,
     );
   }
