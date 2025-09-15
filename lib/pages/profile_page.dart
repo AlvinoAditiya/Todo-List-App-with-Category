@@ -20,14 +20,7 @@ class ProfilePage extends StatelessWidget {
             children: const [
               SizedBox(height: 20),
               Center(
-                child: Text(
-                  "Our Team",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+                
               ),
               SizedBox(height: 30),
               UserCard(

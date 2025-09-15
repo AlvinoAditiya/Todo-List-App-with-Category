@@ -7,7 +7,8 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HistoryController historyC = Get.put(HistoryController()); // diperbaiki dari Get.put
+    // Controller dibuat permanent biar tidak hilang
+    final HistoryController historyC = Get.put(HistoryController(), permanent: true);
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +53,8 @@ class HistoryPage extends StatelessWidget {
           itemBuilder: (context, index) {
             final todo = historyC.historyList[index];
             return Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
               elevation: 3,
               margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
               child: ListTile(
@@ -60,14 +62,8 @@ class HistoryPage extends StatelessWidget {
                   todo['title'] ?? '',
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(todo['category'] ?? ''),
-                    const SizedBox(height: 4),
-                    if (todo['description'] != null)
-                      Text(todo['description'], style: const TextStyle(fontSize: 12)),
-                  ],
+                subtitle: Text(
+                  "${todo['category'] ?? ''}\n${todo['date'] ?? ''}", // ✅ tampilkan tanggal
                 ),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),

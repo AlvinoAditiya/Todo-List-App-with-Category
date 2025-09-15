@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app_with_category/controller/home_controller.dart';
-import 'package:todo_list_app_with_category/pages/history_page.dart'; // Tambahkan jika belum
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final HomeController homeC = Get.put(HomeController()); // perbaikan disini
+    // Controller dibuat permanent supaya tidak hilang saat pindah halaman
+    final HomeController homeC = Get.put(HomeController(), permanent: true);
 
     void _showAddTodoDialog() {
       final TextEditingController _titleC = TextEditingController();
       final TextEditingController _descC = TextEditingController();
-      String _selectedCategory = "Umum";
+      String _selectedCategory = "Umum"; // default kategori
 
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             title: const Text("Tambah Todo"),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -70,7 +71,8 @@ class HomePage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (_titleC.text.trim().isEmpty || _descC.text.trim().isEmpty) {
+                  if (_titleC.text.trim().isEmpty ||
+                      _descC.text.trim().isEmpty) {
                     Get.snackbar("Error", "Semua field harus diisi!",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Colors.redAccent,
@@ -82,8 +84,9 @@ class HomePage extends StatelessWidget {
                     _titleC.text.trim(),
                     _descC.text.trim(),
                     _selectedCategory,
-                    null,
+                    DateTime.now(), // ✅ tambahkan tanggal
                   );
+
                   _titleC.dispose();
                   _descC.dispose();
                   Navigator.pop(context);
@@ -102,8 +105,11 @@ class HomePage extends StatelessWidget {
         elevation: 3,
         margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
         child: ListTile(
-          title: Text(todo['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.w500)),
-          subtitle: Text(todo['category'] ?? ''),
+          title: Text(todo['title'] ?? '',
+              style: const TextStyle(fontWeight: FontWeight.w500)),
+          subtitle: Text(
+            "${todo['category'] ?? ''}\n${todo['date'] ?? ''}", // ✅ tampilkan tanggal
+          ),
           trailing: Wrap(
             spacing: 8,
             children: [
@@ -129,14 +135,6 @@ class HomePage extends StatelessWidget {
         title: const Text("Todo List"),
         centerTitle: true,
         backgroundColor: Colors.blue,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.history),
-            onPressed: () {
-              Get.to(() => const HistoryPage());
-            },
-          )
-        ],
       ),
       body: Obx(
         () => homeC.todoList.isEmpty
