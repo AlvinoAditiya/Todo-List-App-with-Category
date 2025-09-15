@@ -1,99 +1,159 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:todo_list_app_with_category/controller/home_controller.dart';
+import 'package:todo_list_app_with_category/pages/history_page.dart'; // Tambahkan jika belum
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final List<String> todos = ["Belajar Flutter", "Kerjakan Tugas"];
-  final TextEditingController _todoController = TextEditingController();
-
-  void _showAddTodoDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: const Text("Tambah Todo"),
-          content: TextField(
-            controller: _todoController,
-            decoration: const InputDecoration(
-              hintText: "Masukkan judul todo",
-              border: OutlineInputBorder(),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                _todoController.clear();
-              },
-              child: const Text("Batal"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_todoController.text.trim().isNotEmpty) {
-                  setState(() {
-                    todos.add(_todoController.text.trim());
-                  });
-                  _todoController.clear();
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text("Simpan"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _deleteTodoAt(int index) {
-    setState(() {
-      todos.removeAt(index);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: todos.isEmpty
-          ? const Center(
-              child: Text(
-                "Belum ada todo",
-                style: TextStyle(fontSize: 18, color: Colors.grey),
-              ),
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: todos.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+    final HomeController homeC = Get.put(HomeController()); // perbaikan disini
+
+    void _showAddTodoDialog() {
+      final TextEditingController _titleC = TextEditingController();
+      final TextEditingController _descC = TextEditingController();
+      String _selectedCategory = "Umum";
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            title: const Text("Tambah Todo"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: _titleC,
+                  decoration: const InputDecoration(
+                    hintText: "Judul",
+                    border: OutlineInputBorder(),
                   ),
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  child: ListTile(
-                    title: Text(
-                      todos[index],
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => _deleteTodoAt(index),
-                    ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _descC,
+                  decoration: const InputDecoration(
+                    hintText: "Deskripsi",
+                    border: OutlineInputBorder(),
                   ),
-                );
-              },
+                ),
+                const SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: _selectedCategory,
+                  items: ["Umum", "Pekerjaan", "Sekolah", "Pribadi"]
+                      .map(
+                        (cat) => DropdownMenuItem(
+                          value: cat,
+                          child: Text(cat),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value != null) _selectedCategory = value;
+                  },
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
             ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  _titleC.dispose();
+                  _descC.dispose();
+                },
+                child: const Text("Batal"),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_titleC.text.trim().isEmpty || _descC.text.trim().isEmpty) {
+                    Get.snackbar("Error", "Semua field harus diisi!",
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.redAccent,
+                        colorText: Colors.white);
+                    return;
+                  }
+
+                  homeC.addTodo(
+                    _titleC.text.trim(),
+                    _descC.text.trim(),
+                    _selectedCategory,
+                    null,
+                  );
+                  _titleC.dispose();
+                  _descC.dispose();
+                  Navigator.pop(context);
+                },
+                child: const Text("Simpan"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Widget _buildTodoCard(Map<String, dynamic> todo, int index) {
+      return Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        elevation: 3,
+        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+        child: ListTile(
+          title: Text(todo['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.w500)),
+          subtitle: Text(todo['category'] ?? ''),
+          trailing: Wrap(
+            spacing: 8,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.check, color: Colors.green),
+                onPressed: () => homeC.markAsDone(index),
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: () => homeC.deleteTodoAt(index),
+              ),
+            ],
+          ),
+          onTap: () {
+            // Bisa ditambahkan navigasi ke halaman edit
+          },
+        ),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Todo List"),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.history),
+            onPressed: () {
+              Get.to(() => const HistoryPage());
+            },
+          )
+        ],
+      ),
+      body: Obx(
+        () => homeC.todoList.isEmpty
+            ? const Center(
+                child: Text(
+                  "Belum ada todo",
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+              )
+            : ListView.builder(
+                itemCount: homeC.todoList.length,
+                itemBuilder: (context, index) =>
+                    _buildTodoCard(homeC.todoList[index], index),
+              ),
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showAddTodoDialog, // ganti jadi dialog
+        onPressed: _showAddTodoDialog,
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add, size: 30, color: Colors.white),
       ),
