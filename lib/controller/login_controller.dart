@@ -20,13 +20,10 @@ class LoginController extends GetxController {
       return;
     }
 
-    // Aktifkan loading
     isLoading(true);
 
-    // Simulasi proses login
     await Future.delayed(const Duration(seconds: 2));
 
-    // Dummy login
     if (usernameC.text.trim() == "alvino" && passwordC.text.trim() == "arya") {
       // Pindah halaman ke Dashboard menggunakan named route
       Get.offNamed(AppRoutes.dashboardpage);
