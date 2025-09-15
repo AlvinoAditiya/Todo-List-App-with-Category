@@ -20,7 +20,14 @@ class ProfilePage extends StatelessWidget {
             children: const [
               SizedBox(height: 20),
               Center(
-                
+                child: Text(
+                  "Our Team",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
               SizedBox(height: 30),
               UserCard(
@@ -34,6 +41,13 @@ class ProfilePage extends StatelessWidget {
                 role: "Controller Developer",
                 email: "alvino@example.com",
               ),
+              SizedBox(height: 10),
+              UserCard(
+                name: "Mikhael",
+                role: "Reusable Page Developer",
+                email: "mikhael@example.com",
+                imagePath: "asset/Mikhael.jpg",
+              ),
             ],
           ),
         ),
@@ -46,12 +60,14 @@ class UserCard extends StatelessWidget {
   final String name;
   final String role;
   final String email;
+  final String? imagePath; // opsional
 
   const UserCard({
     super.key,
     required this.name,
     required this.role,
     required this.email,
+    this.imagePath,
   });
 
   @override
@@ -66,10 +82,13 @@ class UserCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 45,
             backgroundColor: Colors.white,
-            child: Icon(Icons.person, size: 50, color: Colors.blue),
+            backgroundImage: imagePath != null ? AssetImage(imagePath!) : null,
+            child: imagePath == null
+                ? const Icon(Icons.person, size: 50, color: Colors.blue)
+                : null,
           ),
           const SizedBox(height: 12),
           Text(
@@ -94,10 +113,7 @@ class UserCard extends StatelessWidget {
             children: [
               const Icon(Icons.email, size: 16, color: Colors.white70),
               const SizedBox(width: 6),
-              Text(
-                email,
-                style: const TextStyle(color: Colors.white70),
-              ),
+              Text(email, style: const TextStyle(color: Colors.white70)),
             ],
           ),
         ],
