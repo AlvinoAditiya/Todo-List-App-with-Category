@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';
 
-
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({super.key});
 
@@ -26,15 +25,9 @@ class _AddTodoPageState extends State<AddTodoPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            CustomTextField(
-              hint: "Judul",
-              controller: titleC,
-            ),
+            CustomTextField(hint: "Judul", controller: titleC),
             const SizedBox(height: 16),
-            CustomTextField(
-              hint: "Deskripsi",
-              controller: descC,
-            ),
+            CustomTextField(hint: "Deskripsi", controller: descC),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               value: selectedCategory,
@@ -60,7 +53,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   snackPosition: SnackPosition.BOTTOM,
                 );
               },
-            )
+            ),
           ],
         ),
       ),
