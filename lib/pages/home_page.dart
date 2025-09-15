@@ -8,94 +8,173 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<String> todos = ["Belajar Flutter", "Kerjakan Tugas"];
-  final TextEditingController _todoController = TextEditingController();
+  final TextEditingController titleC = TextEditingController();
+  final TextEditingController descC = TextEditingController();
+
+  String? kategori;
+  String? prioritas;
+  DateTime? dueDate;
 
   void _showAddTodoDialog() {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
+        return Dialog(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          title: const Text("Tambah Todo"),
-          content: TextField(
-            controller: _todoController,
-            decoration: const InputDecoration(
-              hintText: "Masukkan judul todo",
-              border: OutlineInputBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Judul
+                  TextField(
+                    controller: titleC,
+                    decoration: InputDecoration(
+                      hintText: "Judul",
+                      prefixIcon: const Icon(Icons.title, color: Colors.brown),
+                      filled: true,
+                      fillColor: Colors.brown[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Deskripsi
+                  TextField(
+                    controller: descC,
+                    decoration: InputDecoration(
+                      hintText: "Deskripsi",
+                      prefixIcon: const Icon(Icons.description,
+                          color: Colors.brown),
+                      filled: true,
+                      fillColor: Colors.brown[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Pilih Kategori
+                  DropdownButtonFormField<String>(
+                    value: kategori,
+                    items: ["Umum", "Pekerjaan", "Pribadi"]
+                        .map((e) =>
+                            DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() => kategori = value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Pilih Kategori",
+                      filled: true,
+                      fillColor: Colors.brown[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Pilih Prioritas
+                  DropdownButtonFormField<String>(
+                    value: prioritas,
+                    items: ["Rendah", "Sedang", "Tinggi"]
+                        .map((e) =>
+                            DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() => prioritas = value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Pilih Prioritas",
+                      filled: true,
+                      fillColor: Colors.brown[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Due Date
+                  TextFormField(
+                    readOnly: true,
+                    onTap: () async {
+                      DateTime? picked = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime(2100),
+                        initialDate: DateTime.now(),
+                      );
+                      if (picked != null) {
+                        setState(() {
+                          dueDate = picked;
+                        });
+                      }
+                    },
+                    decoration: InputDecoration(
+                      hintText: dueDate == null
+                          ? "Pilih Due Date"
+                          : "${dueDate!.day}/${dueDate!.month}/${dueDate!.year}",
+                      prefixIcon:
+                          const Icon(Icons.calendar_today, color: Colors.brown),
+                      filled: true,
+                      fillColor: Colors.brown[50],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Tombol Simpan
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Simpan todo di sini
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green[700],
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text("Simpan Todo"),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                _todoController.clear();
-              },
-              child: const Text("Batal"),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_todoController.text.trim().isNotEmpty) {
-                  setState(() {
-                    todos.add(_todoController.text.trim());
-                  });
-                  _todoController.clear();
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text("Simpan"),
-            ),
-          ],
         );
       },
     );
   }
 
-  void _deleteTodoAt(int index) {
-    setState(() {
-      todos.removeAt(index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: todos.isEmpty
-          ? const Center(
-              child: Text(
-                "Belum ada todo",
-                style: TextStyle(fontSize: 18, color: Colors.grey),
-              ),
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.all(12),
-              itemCount: todos.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  child: ListTile(
-                    title: Text(
-                      todos[index],
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => _deleteTodoAt(index),
-                    ),
-                  ),
-                );
-              },
-            ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showAddTodoDialog, // ganti jadi dialog
+      appBar: AppBar(
+        title: const Text("Home"),
         backgroundColor: Colors.blue,
-        child: const Icon(Icons.add, size: 30, color: Colors.white),
+      ),
+      body: const Center(
+        child: Text("Todo List"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showAddTodoDialog,
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
     );
   }

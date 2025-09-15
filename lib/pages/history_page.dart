@@ -1,73 +1,77 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controller/history_controller.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final history = [
-      {"title": "Belajar GetX", "category": "Sekolah"},
-      {"title": "Makan siang", "category": "Pribadi"},
-    ];
+    // Ambil controller yang sudah di-bind
+    final HistoryController historyC = Get.put(HistoryController());
 
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              const Text(
-                "History",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+      appBar: AppBar(
+        title: const Text("History Todo"),
+        backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete_forever),
+            onPressed: () {
+              if (historyC.historyList.isEmpty) {
+                Get.snackbar("Info", "Tidak ada todo di history",
+                    snackPosition: SnackPosition.BOTTOM);
+                return;
+              }
+              Get.defaultDialog(
+                title: "Hapus Semua",
+                middleText: "Apakah kamu yakin ingin menghapus semua todo di history?",
+                textCancel: "Batal",
+                textConfirm: "Hapus",
+                confirmTextColor: Colors.white,
+                onConfirm: () {
+                  historyC.clearHistory();
+                  Get.back();
+                },
+              );
+            },
+          )
+        ],
+      ),
+      body: Obx(() {
+        if (historyC.historyList.isEmpty) {
+          return const Center(
+            child: Text(
+              "Belum ada todo selesai",
+              style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
+          );
+        }
+
+        return ListView.builder(
+          itemCount: historyC.historyList.length,
+          itemBuilder: (context, index) {
+            final todo = historyC.historyList[index];
+            return Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              elevation: 3,
+              margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+              child: ListTile(
+                title: Text(
+                  todo['title'] ?? '',
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                ),
+                subtitle: Text(todo['category'] ?? ''),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () => historyC.deleteHistoryAt(index),
                 ),
               ),
-              const SizedBox(height: 20),
-              ...history.map((h) => Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white30),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.history, color: Colors.orangeAccent, size: 28),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                h["title"]!,
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                "Kategori: ${h["category"]}",
-                                style: const TextStyle(color: Colors.white70),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ))
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+            );
+          },
+        );
+      }),
+);
+}
 }
