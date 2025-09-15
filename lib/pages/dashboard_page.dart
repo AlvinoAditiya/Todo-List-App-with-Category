@@ -13,13 +13,12 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [
-    HomePage(),
-    HistoryPage(),
-    ProfilePage(),
+  // Buat model reusable untuk halaman dashboard
+  final List<_DashboardItem> _items = const [
+    _DashboardItem(page: HomePage(), title: "Home", icon: Icons.home),
+    _DashboardItem(page: HistoryPage(), title: "History", icon: Icons.history),
+    _DashboardItem(page: ProfilePage(), title: "Profile", icon: Icons.person),
   ];
-
-  final List<String> _titles = ["Home", "History", "Profile"];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -29,10 +28,12 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final currentItem = _items[_selectedIndex];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _titles[_selectedIndex],
+          currentItem.title,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -40,16 +41,12 @@ class _DashboardPageState extends State<DashboardPage> {
         foregroundColor: Colors.white,
         elevation: 0,
       ),
-      body: _pages[_selectedIndex],
+      body: currentItem.page,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 10,
-              spreadRadius: 2,
-            )
+          boxShadow: const [
+            BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 2),
           ],
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -66,14 +63,30 @@ class _DashboardPageState extends State<DashboardPage> {
             onTap: _onItemTapped,
             selectedItemColor: Colors.blue,
             unselectedItemColor: Colors.grey,
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-            ],
+            items: _items
+                .map(
+                  (item) => BottomNavigationBarItem(
+                    icon: Icon(item.icon),
+                    label: item.title,
+                  ),
+                )
+                .toList(),
           ),
         ),
-     ),
-);
+      ),
+    );
+  }
 }
+
+// Model reusable untuk dashboard item
+class _DashboardItem {
+  final Widget page;
+  final String title;
+  final IconData icon;
+
+  const _DashboardItem({
+    required this.page,
+    required this.title,
+    required this.icon,
+  });
 }
