@@ -7,8 +7,8 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Ambil controller yang sudah di-bind
-    final HistoryController historyC = Get.put(HistoryController());
+    // Controller dibuat permanent biar tidak hilang
+    final HistoryController historyC = Get.put(HistoryController(), permanent: true);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +62,9 @@ class HistoryPage extends StatelessWidget {
                   todo['title'] ?? '',
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
-                subtitle: Text(todo['category'] ?? ''),
+                subtitle: Text(
+                  "${todo['category'] ?? ''}\n${todo['date'] ?? ''}", // ✅ tampilkan tanggal
+                ),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () => historyC.deleteHistoryAt(index),
@@ -72,6 +74,6 @@ class HistoryPage extends StatelessWidget {
           },
         );
       }),
-);
-}
+    );
+  }
 }
