@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_textfield.dart';
-
+import '../widgets/app_colors.dart';
 
 class AddTodoPage extends StatefulWidget {
   const AddTodoPage({super.key});
@@ -21,20 +21,18 @@ class _AddTodoPageState extends State<AddTodoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tambah Todo")),
+      appBar: AppBar(
+        title: const Text("Tambah Todo"),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            CustomTextField(
-              hint: "Judul",
-              controller: titleC,
-            ),
+            CustomTextField(hint: "Judul", controller: titleC),
             const SizedBox(height: 16),
-            CustomTextField(
-              hint: "Deskripsi",
-              controller: descC,
-            ),
+            CustomTextField(hint: "Deskripsi", controller: descC),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
               value: selectedCategory,
@@ -47,18 +45,26 @@ class _AddTodoPageState extends State<AddTodoPage> {
                   selectedCategory = value;
                 });
               },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: AppColors.secondary),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 15, horizontal: 20),
+              ),
             ),
             const SizedBox(height: 30),
             CustomButton(
               text: "Simpan",
               onPressed: () {
-                
-                // nanti dihubungkan ke controller temenmu
                 Get.back();
                 Get.snackbar(
                   "Berhasil",
                   "Todo berhasil ditambahkan (dummy)",
                   snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: AppColors.success,
+                  colorText: Colors.white,
                 );
               },
             )
