@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   // Warna utama aplikasi
-  static const Color primary = Color(0xFF4CAF50);
+  static const Color primary = Color.fromARGB(255, 27, 102, 215);
   static const Color secondary = Color(0xFF2196F3);
   static const Color accent = Color(0xFFFFC107);
 
   // Warna untuk background
   static const Color background = Color(0xFFF5F5F5);
-
+  
   // Warna untuk teks
   static const Color textPrimary = Color(0xFF212121);
   static const Color textSecondary = Color(0xFF757575);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_app_with_category/bindings/main_binding.dart';
 import 'package:todo_list_app_with_category/routes/pages.dart';
 import 'package:todo_list_app_with_category/routes/routes.dart';
 
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       // initialRoute: AppRoutes.loginpage,
       // getPages: AppPages.pages,
 
-      // initialBinding: MainBinding(), // <- Binding dipasang di sini
+      initialBinding: MainBinding(), // <- Binding dipasang di sini
       initialRoute: AppRoutes.loginpage, // Pastikan nama route benar
       getPages: AppPages.pages,
     );
