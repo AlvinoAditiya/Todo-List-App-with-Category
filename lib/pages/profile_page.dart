@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list_app_with_category/widgets/app_colors.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -6,14 +7,21 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        title: const Text("Profile"),
+        centerTitle: true,
+        backgroundColor: AppColors.primary,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: const [
+          SizedBox(height: 30),
+          UserCard(
+            name: "Arya",
+            role: "UI Developer",
+            email: "arya@example.com",
           ),
-        ),
         child: SafeArea(
           child: ListView(
             padding: const EdgeInsets.all(20),
@@ -48,72 +56,6 @@ class ProfilePage extends StatelessWidget {
                 email: "mikhael@example.com",
                 imagePath: "asset/Mikhael.jpg",
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class UserCard extends StatelessWidget {
-  final String name;
-  final String role;
-  final String email;
-  final String? imagePath; // opsional
-
-  const UserCard({
-    super.key,
-    required this.name,
-    required this.role,
-    required this.email,
-    this.imagePath,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.3)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CircleAvatar(
-            radius: 45,
-            backgroundColor: Colors.white,
-            backgroundImage: imagePath != null ? AssetImage(imagePath!) : null,
-            child: imagePath == null
-                ? const Icon(Icons.person, size: 50, color: Colors.blue)
-                : null,
-          ),
-          const SizedBox(height: 12),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            role,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.white.withOpacity(0.9),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.email, size: 16, color: Colors.white70),
-              const SizedBox(width: 6),
-              Text(email, style: const TextStyle(color: Colors.white70)),
             ],
           ),
         ],
