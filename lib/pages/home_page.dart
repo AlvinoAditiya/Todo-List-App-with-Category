@@ -6,11 +6,13 @@ import 'package:todo_list_app_with_category/widgets/custom_todo_card.dart';
 import 'package:todo_list_app_with_category/widgets/custom_button.dart';
 import 'package:todo_list_app_with_category/widgets/app_colors.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     final homeController = Get.find<HomeController>();
 
     void _showAddTodoDialog() {
@@ -66,7 +68,9 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Todo List"),
         centerTitle: true,
+
         backgroundColor: AppColors.primary,
+
       ),
       body: Obx(
         () => homeController.todoList.isEmpty
@@ -77,6 +81,7 @@ class HomePage extends StatelessWidget {
                 ),
               )
             : ListView.builder(
+
                 itemCount: homeController.todoList.length,
                 itemBuilder: (context, index) {
                   final todo = homeController.todoList[index];

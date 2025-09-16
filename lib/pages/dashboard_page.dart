@@ -15,19 +15,38 @@ class DashboardPage extends StatelessWidget {
           appBar: AppBar(
             title: Text(_titles[dashboardController.selectedIndex.value]),
             backgroundColor: AppColors.primary,
-          ),
           body: dashboardController.pages[dashboardController.selectedIndex.value],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: dashboardController.selectedIndex.value,
             onTap: dashboardController.changePage,
             selectedItemColor: Colors.blue,
             unselectedItemColor: Colors.grey,
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-            ],
+            items: _items
+                .map(
+                  (item) => BottomNavigationBarItem(
+                    icon: Icon(item.icon),
+                    label: item.title,
+                  ),
+                )
+                .toList(),
           ),
         ));
+
+        ),
+      ),
+    );
   }
+}
+
+// Model reusable untuk dashboard item
+class _DashboardItem {
+  final Widget page;
+  final String title;
+  final IconData icon;
+
+  const _DashboardItem({
+    required this.page,
+    required this.title,
+    required this.icon,
+  });
 }
