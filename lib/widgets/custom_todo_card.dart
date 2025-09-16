@@ -5,12 +5,14 @@ class CustomTodoCard extends StatelessWidget {
   final Map<String, dynamic> todo;
   final VoidCallback onMarkAsDone;
   final VoidCallback onDelete;
+  final bool showCheckButton;
 
   const CustomTodoCard({
     super.key,
     required this.todo,
     required this.onMarkAsDone,
     required this.onDelete,
+    this.showCheckButton = true,
   });
 
   @override
@@ -36,10 +38,11 @@ class CustomTodoCard extends StatelessWidget {
         trailing: Wrap(
           spacing: 8,
           children: [
-            IconButton(
-              icon: const Icon(Icons.check, color: AppColors.success),
-              onPressed: onMarkAsDone,
-            ),
+            if (showCheckButton)
+              IconButton(
+                icon: const Icon(Icons.check, color: AppColors.success),
+                onPressed: onMarkAsDone,
+              ),
             IconButton(
               icon: const Icon(Icons.delete, color: AppColors.error),
               onPressed: onDelete,

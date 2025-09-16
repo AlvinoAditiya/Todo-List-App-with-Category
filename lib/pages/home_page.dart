@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app_with_category/controller/home_controller.dart';
-import 'package:todo_list_app_with_category/widgets/custom_textfield.dart';
 import 'package:todo_list_app_with_category/widgets/custom_todo_card.dart';
 import 'package:todo_list_app_with_category/widgets/custom_button.dart';
+import 'package:todo_list_app_with_category/widgets/custom_textfield.dart';
 import 'package:todo_list_app_with_category/widgets/app_colors.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final homeController = Get.find<HomeController>();
 
+    // Dialog untuk tambah todo
     void _showAddTodoDialog() {
       final titleC = TextEditingController();
       final descC = TextEditingController();
@@ -57,7 +56,12 @@ class HomePage extends StatelessWidget {
               );
               return;
             }
-            homeController.addTodo(titleC.text.trim(), descC.text.trim(), category, DateTime.now());
+            homeController.addTodo(
+              titleC.text.trim(),
+              descC.text.trim(),
+              category,
+              DateTime.now(),
+            );
             Get.back();
           },
         ),
@@ -65,13 +69,6 @@ class HomePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Todo List"),
-        centerTitle: true,
-
-        backgroundColor: AppColors.primary,
-
-      ),
       body: Obx(
         () => homeController.todoList.isEmpty
             ? const Center(
@@ -81,7 +78,6 @@ class HomePage extends StatelessWidget {
                 ),
               )
             : ListView.builder(
-
                 itemCount: homeController.todoList.length,
                 itemBuilder: (context, index) {
                   final todo = homeController.todoList[index];
@@ -93,14 +89,12 @@ class HomePage extends StatelessWidget {
                 },
               ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16),
-        child: CustomButton(
-          text: "Tambah Todo",
-          color: AppColors.secondary,
-          onPressed: _showAddTodoDialog,
-        ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.secondary,
+        onPressed: _showAddTodoDialog,
+        child: const Icon(Icons.add, size: 30, color: Colors.white),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

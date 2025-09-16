@@ -8,57 +8,190 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text("Profile"),
-        centerTitle: true,
-        backgroundColor: AppColors.primary,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: const [
-          SizedBox(height: 30),
-          UserCard(
-            name: "Arya",
-            role: "UI Developer",
-            email: "arya@example.com",
-          ),
-        child: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.all(20),
-            children: const [
-              SizedBox(height: 20),
-              Center(
-                child: Text(
-                  "Our Team",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(20),
+          children: [
+            const SizedBox(height: 20),
+            const Center(
+              child: Text(
+                "Our Team",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
                 ),
               ),
-              SizedBox(height: 30),
-              UserCard(
-                name: "Arya",
-                role: "UI Developer",
-                email: "arya@example.com",
+            ),
+            const SizedBox(height: 30),
+
+            // Arya
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  )
+                ],
               ),
-              SizedBox(height: 20),
-              UserCard(
-                name: "Alvino",
-                role: "Controller Developer",
-                email: "alvino@example.com",
+              child: Row(
+                children: const [
+                  CircleAvatar(
+                    radius: 30,
+                    child: Icon(Icons.person, size: 30),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Arya",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        Text(
+                          "UI Developer",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        Text(
+                          "arya@example.com",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              UserCard(
-                name: "Mikhael",
-                role: "Reusable Page Developer",
-                email: "mikhael@example.com",
-                imagePath: "asset/Mikhael.jpg",
+            ),
+
+            const SizedBox(height: 20),
+
+            // Alvino
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  )
+                ],
               ),
-            ],
-          ),
-        ],
+              child: Row(
+                children: const [
+                  CircleAvatar(
+                    radius: 30,
+                    child: Icon(Icons.person, size: 30),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Alvino",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        Text(
+                          "Controller Developer",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        Text(
+                          "alvino@example.com",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Mikhael
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 5,
+                    offset: const Offset(0, 2),
+                  )
+                ],
+              ),
+              child: Row(
+                children: const [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: AssetImage("asset/Mikhael.jpg"),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Mikhael",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        Text(
+                          "Reusable Page Developer",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                        Text(
+                          "mikhael@example.com",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.secondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

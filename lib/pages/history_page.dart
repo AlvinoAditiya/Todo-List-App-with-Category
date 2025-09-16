@@ -13,8 +13,7 @@ class HistoryPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("History Todo"),
-        backgroundColor: AppColors.secondary,
+       
         actions: [
           IconButton(
             icon: const Icon(Icons.delete_forever),
@@ -42,8 +41,10 @@ class HistoryPage extends StatelessWidget {
       body: Obx(() {
         if (historyController.historyList.isEmpty) {
           return const Center(
-            child: Text("Belum ada todo selesai",
-                style: TextStyle(fontSize: 18, color: Colors.grey)),
+            child: Text(
+              "Belum ada todo selesai",
+              style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
           );
         }
         return ListView.builder(
@@ -52,7 +53,8 @@ class HistoryPage extends StatelessWidget {
             final todo = historyController.historyList[index];
             return CustomTodoCard(
               todo: todo,
-              onMarkAsDone: () {},
+              showCheckButton: false, 
+              onMarkAsDone: () {},    
               onDelete: () => historyController.deleteHistoryAt(index),
             );
           },
@@ -61,3 +63,4 @@ class HistoryPage extends StatelessWidget {
     );
   }
 }
+
