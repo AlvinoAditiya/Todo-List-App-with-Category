@@ -1,5 +1,4 @@
 import 'package:get/route_manager.dart';
-import 'package:todo_list_app_with_category/bindings/main_binding.dart';
 import 'package:todo_list_app_with_category/pages/dashboard_page.dart';
 import 'package:todo_list_app_with_category/pages/history_page.dart';
 import 'package:todo_list_app_with_category/pages/home_page.dart';

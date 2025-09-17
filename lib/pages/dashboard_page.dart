@@ -4,7 +4,6 @@ import 'package:todo_list_app_with_category/controller/dashboard_controller.dart
 import 'package:todo_list_app_with_category/pages/home_page.dart';
 import 'package:todo_list_app_with_category/pages/history_page.dart';
 import 'package:todo_list_app_with_category/pages/profile_page.dart';
-import 'package:todo_list_app_with_category/widgets/app_colors.dart';
 
 class DashboardPage extends StatelessWidget {
   DashboardPage({super.key});
@@ -21,17 +20,9 @@ class DashboardPage extends StatelessWidget {
         ProfilePage(),
       ];
 
-      final titles = [
-        "Home",
-        "History",
-        "Profile",
-      ];
+
 
       return Scaffold(
-        appBar: AppBar(
-          title: Text(titles[dashboardController.selectedIndex.value]),
-          backgroundColor: AppColors.secondary,
-        ),
         body: pages[dashboardController.selectedIndex.value],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: dashboardController.selectedIndex.value,
