@@ -24,8 +24,8 @@ class LoginController extends GetxController {
 
     await Future.delayed(const Duration(seconds: 2));
 
-    if (usernameC.text.trim() == "alvino" && passwordC.text.trim() == "arya") {
-      // Pindah halaman ke Dashboard menggunakan named route
+    if (usernameC.text.trim() == "alvino" &&
+        passwordC.text.trim() == "arya") {
       Get.offNamed(AppRoutes.dashboardpage);
     } else {
       Get.snackbar(
@@ -37,7 +37,6 @@ class LoginController extends GetxController {
       );
     }
 
-    // Matikan loading
     isLoading(false);
   }
 
