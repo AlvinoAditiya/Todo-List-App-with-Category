@@ -11,7 +11,7 @@ class ProfilePage extends StatelessWidget {
         "name": "Arya",
         "role": "UI Developer",
         "email": "arya@gmail.com",
-        "image": "assets/images/arya.jpg", // Jalur gambar sudah benar
+        "image": "assets/images/arya.jpg", 
       },
       {
         "name": "Alvino",
