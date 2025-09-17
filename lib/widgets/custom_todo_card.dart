@@ -3,16 +3,16 @@ import 'package:todo_list_app_with_category/widgets/app_colors.dart';
 
 class CustomTodoCard extends StatelessWidget {
   final Map<String, dynamic> todo;
-  final VoidCallback onMarkAsDone;
-  final VoidCallback onDelete;
-  final bool showCheckButton;
+  final VoidCallback? onMarkAsDone;
+  final VoidCallback? onDelete;
+  final bool showMarkAsDone; 
 
   const CustomTodoCard({
     super.key,
     required this.todo,
-    required this.onMarkAsDone,
-    required this.onDelete,
-    this.showCheckButton = true,
+    this.onMarkAsDone,
+    this.onDelete,
+    this.showMarkAsDone = true, // default true
   });
 
   @override
@@ -29,7 +29,7 @@ class CustomTodoCard extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
         ),
         subtitle: Text(
-          "${todo['category'] ?? ''}\n${todo['date'] ?? ''}",
+          "${todo['description'] ?? ''}\n${todo['category'] ?? ''}\n${todo['date'] ?? ''}",
           style: const TextStyle(
             fontSize: 14,
             color: AppColors.textSecondary,
@@ -38,18 +38,19 @@ class CustomTodoCard extends StatelessWidget {
         trailing: Wrap(
           spacing: 8,
           children: [
-            if (showCheckButton)
+            if (showMarkAsDone && onMarkAsDone != null) // tampilkan centang hanya jika true
               IconButton(
                 icon: const Icon(Icons.check, color: AppColors.success),
                 onPressed: onMarkAsDone,
               ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: AppColors.error),
-              onPressed: onDelete,
-            ),
+            if (onDelete != null)
+              IconButton(
+                icon: const Icon(Icons.delete, color: AppColors.error),
+                onPressed: onDelete,
+              ),
           ],
         ),
-      ),
-    );
-  }
+     ),
+);
+}
 }
