@@ -16,10 +16,22 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Todo List",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            letterSpacing: 1.2,
+            shadows: [
+              Shadow(
+                offset: Offset(1, 1),
+                blurRadius: 2,
+                color: Colors.black45,
+              ),
+            ],
+          ),
         ),
         centerTitle: true,
-        backgroundColor: AppColors.primary,
+        backgroundColor: const Color(0xFF2575FC),
         elevation: 0,
       ),
       body: Obx(() {
@@ -48,7 +60,7 @@ class HomePage extends StatelessWidget {
               todo: todo,
               onMarkAsDone: () => controller.markAsDone(index),
               onDelete: () => controller.deleteTodoAt(index),
-              showMarkAsDone: true, // tombol centang muncul di Home
+              showMarkAsDone: true,
             );
           },
         );
@@ -57,7 +69,7 @@ class HomePage extends StatelessWidget {
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.add, color: Colors.white),
         onPressed: () {
-          controller.showAddTodoDialog(); 
+          controller.showAddTodoDialog();
         },
       ),
     );

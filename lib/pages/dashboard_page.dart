@@ -4,6 +4,7 @@ import 'package:todo_list_app_with_category/controller/dashboard_controller.dart
 import 'package:todo_list_app_with_category/pages/home_page.dart';
 import 'package:todo_list_app_with_category/pages/history_page.dart';
 import 'package:todo_list_app_with_category/pages/profile_page.dart';
+import 'package:todo_list_app_with_category/widgets/app_colors.dart';
 
 class DashboardPage extends StatelessWidget {
   DashboardPage({super.key});
@@ -13,21 +14,18 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // List page langsung ditulis di dalam Obx
       final pages = [
-        HomePage(),
-        HistoryPage(),
-        ProfilePage(),
+        const HomePage(),
+        const HistoryPage(),
+        const ProfilePage(),
       ];
-
-
 
       return Scaffold(
         body: pages[dashboardController.selectedIndex.value],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: dashboardController.selectedIndex.value,
           onTap: dashboardController.changePage,
-          selectedItemColor: Colors.blue,
+          selectedItemColor: AppColors.primary, // konsisten pakai AppColors
           unselectedItemColor: Colors.grey,
           items: const [
             BottomNavigationBarItem(

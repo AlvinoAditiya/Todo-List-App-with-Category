@@ -16,10 +16,22 @@ class HistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Riwayat Todo",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            letterSpacing: 1.2,
+            shadows: [
+              Shadow(
+                offset: Offset(1, 1),
+                blurRadius: 2,
+                color: Colors.black45,
+              ),
+            ],
+          ),
         ),
         centerTitle: true,
-        backgroundColor: AppColors.primary,
+        backgroundColor: const Color(0xFF2575FC),
         elevation: 0,
       ),
       body: Obx(() {
@@ -49,7 +61,7 @@ class HistoryPage extends StatelessWidget {
             final todo = history[index];
             return CustomTodoCard(
               todo: todo,
-              onMarkAsDone: null, //  tombol centang dihapus di history
+              onMarkAsDone: null,
               onDelete: () => historyController.deleteHistoryAt(index),
             );
           },
@@ -82,6 +94,6 @@ class HistoryPage extends StatelessWidget {
           },
         );
       }),
-);
-}
+    );
+  }
 }

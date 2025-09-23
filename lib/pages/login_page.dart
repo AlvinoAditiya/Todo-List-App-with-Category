@@ -1,9 +1,10 @@
-// lib/pages/login_page.dart
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list_app_with_category/controller/login_controller.dart';
+import 'package:todo_list_app_with_category/widgets/custom_textfield.dart';
+import 'package:todo_list_app_with_category/widgets/app_colors.dart';
+import 'package:todo_list_app_with_category/widgets/app_text_styles.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class LoginPage extends StatelessWidget {
         width: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+            colors: [AppColors.secondary, AppColors.primary],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -46,41 +47,18 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Text(
                       "Todo List App",
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                      style: AppTextStyles.appBarTitle, // ✅ pakai reusable
                     ),
                     const SizedBox(height: 30),
-                    TextField(
+                    CustomTextField(
+                      hint: "Username",
                       controller: controller.usernameC,
-                      decoration: InputDecoration(
-                        hintText: "Username",
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.8),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: const Icon(Icons.person),
-                      ),
                     ),
                     const SizedBox(height: 16),
-                    TextField(
+                    CustomTextField(
+                      hint: "Password",
                       controller: controller.passwordC,
-                      obscureText: true,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: "Password",
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.8),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide.none,
-                        ),
-                        prefixIcon: const Icon(Icons.lock),
-                      ),
+                      isPassword: true,
                     ),
                     const SizedBox(height: 30),
                     Obx(() {
@@ -89,11 +67,9 @@ class LoginPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: controller.isLoading.value
                               ? null
-                              : () {
-                                  controller.login();
-                                },
+                              : controller.login,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
+                            backgroundColor: AppColors.primary, 
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             shape: RoundedRectangleBorder(
@@ -106,7 +82,7 @@ class LoginPage extends StatelessWidget {
                                 )
                               : const Text(
                                   "Login",
-                                  style: TextStyle(fontSize: 16),
+                                  style: AppTextStyles.buttonText,
                                 ),
                         ),
                       );
