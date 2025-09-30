@@ -9,9 +9,13 @@ class AppColors {
   // Warna untuk background
   static const Color background = Color(0xFFF5F5F5);
   
-  // Warna untuk teks
+  // Warna untuk teks gelap
   static const Color textPrimary = Color(0xFF212121);
   static const Color textSecondary = Color(0xFF757575);
+
+  // Warna untuk teks terang 
+  static const Color textLight = Colors.white;
+  static const Color textLightSecondary = Colors.white70;
 
   // Warna untuk status tombol / icon
   static const Color success = Color(0xFF4CAF50);

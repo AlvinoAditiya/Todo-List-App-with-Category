@@ -15,7 +15,7 @@ class HistoryPage extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: const Text(
-          "Riwayat Todo",
+          "HISTORY",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,

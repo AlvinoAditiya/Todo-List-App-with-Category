@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Text(
                       "Todo List App",
-                      style: AppTextStyles.appBarTitle, // ✅ pakai reusable
+                      style: AppTextStyles.appBarTitle,
                     ),
                     const SizedBox(height: 30),
                     CustomTextField(

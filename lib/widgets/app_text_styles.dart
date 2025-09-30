@@ -8,21 +8,22 @@ class AppTextStyles {
     color: Colors.white,
   );
 
+  // Profil User
   static const TextStyle userName = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
-    color: AppColors.textPrimary,
+    color: AppColors.textLight, 
   );
 
   static const TextStyle userRole = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w500,
-    color: AppColors.textSecondary,
+    color: AppColors.textLightSecondary, 
   );
 
   static const TextStyle userEmail = TextStyle(
     fontSize: 14,
-    color: AppColors.textSecondary,
+    color: AppColors.textLightSecondary,
   );
 
   static const TextStyle buttonText = TextStyle(

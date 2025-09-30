@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       // initialRoute: AppRoutes.loginpage,
       // getPages: AppPages.pages,
 
-      initialRoute: AppRoutes.loginpage, 
+      initialRoute: AppRoutes.splashscreen,
       getPages: AppPages.pages,
     );
   }
