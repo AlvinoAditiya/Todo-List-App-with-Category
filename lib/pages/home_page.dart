@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: const Text(
-          "Todo List",
+          "HOME",
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,

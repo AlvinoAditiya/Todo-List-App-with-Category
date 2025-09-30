@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_list_app_with_category/routes/routes.dart';
 
 class LoginController extends GetxController {
@@ -26,7 +27,11 @@ class LoginController extends GetxController {
 
     if (usernameC.text.trim() == "alvino" &&
         passwordC.text.trim() == "arya") {
-      Get.offNamed(AppRoutes.dashboardpage);
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString("username", usernameC.text.trim());
+
+      Get.offAllNamed(AppRoutes.splashscreen);
     } else {
       Get.snackbar(
         "Login Gagal",
