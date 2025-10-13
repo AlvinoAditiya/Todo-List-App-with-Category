@@ -4,7 +4,9 @@ import 'package:todo_list_app_with_category/controller/splashscreen_controller.d
 import 'package:todo_list_app_with_category/widgets/app_colors.dart';
 
 class SplashScreenPage extends GetView<SplashScreenController> {
-  const SplashScreenPage({super.key});
+  SplashScreenPage({super.key});
+
+  final controller = Get.find<SplashScreenController>();
 
   @override
   Widget build(BuildContext context) {

@@ -23,15 +23,14 @@ class LoginController extends GetxController {
 
     isLoading(true);
 
-    await Future.delayed(const Duration(seconds: 2));
+    // await Future.delayed(const Duration(seconds: 2));
 
     if (usernameC.text.trim() == "alvino" &&
         passwordC.text.trim() == "arya") {
 
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString("username", usernameC.text.trim());
-
-      Get.offAllNamed(AppRoutes.splashscreen);
+      prefs.setString("username", usernameC.text.toString());
+      Get.offAllNamed(AppRoutes.splashscreenpage);
     } else {
       Get.snackbar(
         "Login Gagal",

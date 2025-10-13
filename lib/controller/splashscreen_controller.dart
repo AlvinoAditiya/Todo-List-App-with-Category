@@ -15,8 +15,8 @@ class SplashScreenController extends GetxController {
     await Future.delayed( Duration(seconds: 5));
     if(prefs.getString("username") != null){
       Get.offAllNamed(AppRoutes.dashboardpage);
-    }else(){
-
+    }else{
+      //route ke login karena masih kosong
       Get.offAllNamed(AppRoutes.loginpage);
     };
   }

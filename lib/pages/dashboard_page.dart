@@ -17,7 +17,7 @@ class DashboardPage extends StatelessWidget {
       final pages = [
         const HomePage(),
         const HistoryPage(),
-        const ProfilePage(),
+        ProfilePage(),
       ];
 
       return Scaffold(
