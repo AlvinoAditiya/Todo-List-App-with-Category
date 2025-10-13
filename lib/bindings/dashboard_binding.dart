@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:todo_list_app_with_category/controller/dashboard_controller.dart';
 import 'package:todo_list_app_with_category/controller/history_controller.dart';
 import 'package:todo_list_app_with_category/controller/home_controller.dart';
+import 'package:todo_list_app_with_category/controller/profile_controller.dart';
 
 class DashboardBinding extends Bindings {
   @override
@@ -9,5 +10,6 @@ class DashboardBinding extends Bindings {
     Get.lazyPut<DashboardController>(() => DashboardController());
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<HistoryController>(() => HistoryController());
+    Get.lazyPut<ProfileController>(() => ProfileController());
   }
 }
