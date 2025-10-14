@@ -5,6 +5,7 @@ class CustomTodoCard extends StatelessWidget {
   final Map<String, dynamic> todo;
   final VoidCallback? onMarkAsDone;
   final VoidCallback? onDelete;
+  final VoidCallback? onEdit;
   final bool showMarkAsDone; 
 
   const CustomTodoCard({
@@ -12,6 +13,7 @@ class CustomTodoCard extends StatelessWidget {
     required this.todo,
     this.onMarkAsDone,
     this.onDelete,
+    this.onEdit,
     this.showMarkAsDone = true, // default true
   });
 
@@ -38,6 +40,11 @@ class CustomTodoCard extends StatelessWidget {
         trailing: Wrap(
           spacing: 8,
           children: [
+            if (onEdit != null)
+              IconButton(
+                icon: const Icon(Icons.edit, color: AppColors.primary),
+                onPressed: onEdit,
+              ),
             if (showMarkAsDone && onMarkAsDone != null) // tampilkan centang hanya jika true
               IconButton(
                 icon: const Icon(Icons.check, color: AppColors.success),

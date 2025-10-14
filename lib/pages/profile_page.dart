@@ -13,27 +13,6 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final users = [
-    //   {
-    //     "name": "Arya",
-    //     "role": "UI Developer",
-    //     "email": "arya@gmail.com",
-    //     "image": "assets/images/arya.jpg",
-    //   },
-    //   {
-    //     "name": "Alvino",
-    //     "role": "Controller Developer",
-    //     "email": "alvino@gmail.com",
-    //     "image": "assets/images/vino.jpg",
-    //   },
-    //   {
-    //     "name": "Mikhael",
-    //     "role": "Reusable Page Developer",
-    //     "email": "mikhael@gmail.com",
-    //     "image": "",
-    //   },
-    // ];
-
     return Scaffold(
       appBar: AppBar(
          title: const Text("PROFILE", style: AppTextStyles.appBarTitle),
@@ -56,7 +35,7 @@ class ProfilePage extends StatelessWidget {
             },
           );
         },
-        icon: const Icon(Icons.logout, color: Colors.white), // ✅ ubah warna icon
+        icon: const Icon(Icons.logout, color: Colors.white), 
         tooltip: "Logout",
       ),
     ],
@@ -138,23 +117,6 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ),
-
-            // // Tombol Logout
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            //   child: ElevatedButton.icon(
-            //     onPressed: controller.logout,
-            //     icon: const Icon(Icons.logout),
-            //     label: const Text("Logout"),
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: AppColors.primary,
-            //       foregroundColor: Colors.white,
-            //       padding:
-            //           const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-            //       minimumSize: const Size.fromHeight(50),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
