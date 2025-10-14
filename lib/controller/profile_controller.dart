@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_list_app_with_category/pages/login_page.dart';
+import 'package:todo_list_app_with_category/pages/login/login_page.dart';
 
 class ProfileController extends GetxController{
    final users = [

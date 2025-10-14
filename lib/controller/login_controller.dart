@@ -6,7 +6,6 @@ import 'package:todo_list_app_with_category/routes/routes.dart';
 class LoginController extends GetxController {
   final usernameC = TextEditingController();
   final passwordC = TextEditingController();
-
   var isLoading = false.obs;
 
   void login() async {
@@ -23,14 +22,12 @@ class LoginController extends GetxController {
 
     isLoading(true);
 
-    // await Future.delayed(const Duration(seconds: 2));
-
     if (usernameC.text.trim() == "alvino" &&
         passwordC.text.trim() == "arya") {
-
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString("username", usernameC.text.toString());
-      Get.offAllNamed(AppRoutes.splashscreenpage);
+      prefs.setString("username", usernameC.text);
+
+      Get.offAllNamed(AppRoutes.splashscreenpage);  
     } else {
       Get.snackbar(
         "Login Gagal",

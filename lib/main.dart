@@ -13,18 +13,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Todo List App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true, 
-      ),
-      // initialBinding: mainBinding(),
-      // initialRoute: AppRoutes.loginpage,
-      // getPages: AppPages.pages,
+  debugShowCheckedModeBanner: false,
+  title: 'Todo List App',
+  initialRoute: AppRoutes.loginpage,
+  getPages: AppPages.pages,
+);
 
-      initialRoute: AppRoutes.loginpage,
-      getPages: AppPages.pages,
-    );
   }
 }
