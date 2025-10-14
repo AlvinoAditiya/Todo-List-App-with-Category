@@ -1,10 +1,8 @@
 class AppRoutes {
-
-  static const String dashboardpage = "/dashboardpage";
-  static const String addtodopage = "/addtodopage";
-  static const String historypage = "/historypage";
-  static const String homepage = "/homepage";
-  static const String loginpage = "/loginpage";
-  static const String profilepage = "/profilepage";
-  static const String splashscreenpage = "/splashscreenpage";
+  static const loginpage = '/login';
+  static const splashscreenpage = '/splash';
+  static const dashboardpage = '/dashboard';
+  static const home = '/home';
+  static const history = '/history';
+  static const profile = '/profile';
 }
