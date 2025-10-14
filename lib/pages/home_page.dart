@@ -6,7 +6,7 @@ import '../widgets/app_colors.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
-  final controller = Get.find<HomeController>();
+  final controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
