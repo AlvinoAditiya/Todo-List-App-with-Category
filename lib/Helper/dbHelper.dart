@@ -1,5 +1,7 @@
-import 'package:sqflite/sqflite.dart';
+import 'dart:io';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class DBHelper {
   static final DBHelper _instance = DBHelper._internal();
@@ -15,23 +17,41 @@ class DBHelper {
   }
 
   Future<Database> _initDb() async {
+    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
+    }
+
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'todos.db');
 
-    return await openDatabase(
+    return await databaseFactory.openDatabase(
       path,
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute(
-          'CREATE TABLE todos(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, category TEXT, isDone INTEGER, dueDate TEXT)',
-        );
-      },
+      options: OpenDatabaseOptions(
+        version: 1,
+        onCreate: (db, version) async {
+          await db.execute('''
+            CREATE TABLE todos(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              title TEXT,
+              description TEXT,
+              category TEXT,
+              isDone INTEGER,
+              dueDate TEXT
+            )
+          ''');
+        },
+      ),
     );
   }
 
   Future<int> insertTodo(Map<String, dynamic> todo) async {
     final client = await db;
-    return client.insert('todos', todo, conflictAlgorithm: ConflictAlgorithm.replace);
+    return client.insert(
+      'todos',
+      todo,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<int> deleteTodo(int id) async {
@@ -46,6 +66,6 @@ class DBHelper {
 
   Future<List<Map<String, dynamic>>> getTodos() async {
     final client = await db;
-    return client.query('todos', orderBy: 'id DESC'); //besar ke kecil
+    return client.query('todos', orderBy: 'id DESC');
   }
 }
