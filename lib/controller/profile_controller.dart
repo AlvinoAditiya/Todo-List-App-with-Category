@@ -28,7 +28,6 @@ class ProfileController extends GetxController{
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear(); // bisa clear semua data login/session
 
-  // Navigasi ke LoginPage langsung (tidak perlu route bernama)
   Get.offAll(() => LoginPage());
 }
 

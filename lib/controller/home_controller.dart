@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:todo_list_app_with_category/Helper/dbHelper.dart';
 import 'package:todo_list_app_with_category/controller/history_controller.dart';
 import 'package:todo_list_app_with_category/widgets/custom_button.dart';
 import 'package:todo_list_app_with_category/widgets/custom_textfield.dart';
 
 class HomeController extends GetxController {
-  
+
+  final DBHelper dbHelper = DBHelper();
+
   final RxList<Map<String, dynamic>> todoList = <Map<String, dynamic>>[].obs;
   final RxList<Map<String, dynamic>> completedList = <Map<String, dynamic>>[].obs;
 
@@ -20,9 +23,16 @@ class HomeController extends GetxController {
       Get.lazyPut<HistoryController>(() => HistoryController());
     }
     historyController = Get.find<HistoryController>();
+    loadTodos();
   }
 
-  void addTodo(String title, String description, String category, DateTime? dueDate) {
+  Future<void> loadTodos() async {
+    final todos = await dbHelper.getTodos();
+    todoList.assignAll(todos.where((t) => t['isDone'] == 0));
+    completedList.assignAll(todos.where((t) => t['isDone'] == 1));
+  }
+
+  Future<void> addTodo(String title, String description, String category, DateTime? dueDate) async {
     if (title.isEmpty || description.isEmpty || category.isEmpty) {
       Get.snackbar("Gagal", "Semua field harus diisi!");
       return;
@@ -32,113 +42,120 @@ class HomeController extends GetxController {
       'title': title,
       'description': description,
       'category': category,
-      'isDone': false,
-      'dueDate': dueDate,
+      'isDone': 0,
+      'dueDate': dueDate?.toIso8601String() ?? "",
     };
 
-    todoList.add(newTodo);
-    todoList.refresh();
+    await dbHelper.insertTodo(newTodo);
+    await loadTodos();
   }
 
-  void updateList(
-    int index,
-    String newTitle,
-    String newDescription,
-    bool newIsDone,
-    String newCategory,
-    DateTime? newDueDate,
-  ) {
-    if (index < 0 || index >= todoList.length) return;
-
-    final todo = todoList[index];
-    final bool wasDone = todo['isDone'] ?? false;
-
-    todo['title'] = newTitle;
-    todo['description'] = newDescription;
-    todo['category'] = newCategory;
-    todo['dueDate'] = newDueDate;
-    todo['isDone'] = newIsDone;
-
-    if (newIsDone && !wasDone) {
-      completedList.add(Map<String, dynamic>.from(todo));
-      historyController.addHistory(Map<String, dynamic>.from(todo));
-      todoList.removeAt(index);
-    }
-
-    else if (!newIsDone && wasDone) {
-      historyController.deleteHistory(todo);
-    }
-
-    todoList.refresh();
-    completedList.refresh();
-  }
-
-  void markAsDone(int index) {
+  Future<void> markAsDone(int index) async {
     if (index < 0 || index >= todoList.length) return;
 
     final todo = Map<String, dynamic>.from(todoList[index]);
-    todo['isDone'] = true;
+    todo['isDone'] = 1;
 
-    completedList.add(todo);
+    await dbHelper.updateTodo(todo['id'], todo);
+    await loadTodos();
+
     historyController.addHistory(todo);
-
-    todoList.removeAt(index);
-    todoList.refresh();
-    completedList.refresh();
   }
 
-  void deleteTodoAt(int index) {
-    if (index >= 0 && index < todoList.length) {
-      todoList.removeAt(index);
-      todoList.refresh();
-    }
+  Future<void> deleteTodoAt(int index) async {
+    if (index < 0 || index >= todoList.length) return;
+
+    final todo = todoList[index];
+    await dbHelper.deleteTodo(todo['id']);
+    await loadTodos();
   }
 
-  void deleteCompletedAt(int index) {
-    if (index >= 0 && index < completedList.length) {
-      completedList.removeAt(index);
-      completedList.refresh();
-    }
-  }
+  Future<void> updateTodoDialog(int index) async {
+    final todo = todoList[index];
+    final titleC = TextEditingController(text: todo['title']);
+    final descC = TextEditingController(text: todo['description']);
+    String category = todo['category'] ?? "Umum";
 
-  // Dialog untuk tambah todo
-    void showAddTodoDialog() {
-      final titleC = TextEditingController();
-      final descC = TextEditingController();
-      String category = "Umum";
-
-      Get.defaultDialog(
-        title: "Tambah Todo",
-        content: Column(
-          children: [
-            CustomTextField(hint: "Judul", controller: titleC),
-            const SizedBox(height: 10),
-            CustomTextField(hint: "Deskripsi", controller: descC),
-            const SizedBox(height: 10),
-            DropdownButtonFormField<String>(
-              value: category,
-              items: ["Umum", "Pekerjaan", "Sekolah", "Pribadi"]
-                  .map((cat) => DropdownMenuItem(value: cat, child: Text(cat)))
-                  .toList(),
-              onChanged: (value) {
-                if (value != null) category = value;
-              },
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              ),
+    Get.defaultDialog(
+      title: "Edit Todo",
+      content: Column(
+        children: [
+          CustomTextField(hint: "Judul", controller: titleC),
+          const SizedBox(height: 10),
+          CustomTextField(hint: "Deskripsi", controller: descC),
+          const SizedBox(height: 10),
+          DropdownButtonFormField<String>(
+            value: category,
+            items: ["Umum", "Pekerjaan", "Sekolah", "Pribadi"]
+                .map((cat) => DropdownMenuItem(value: cat, child: Text(cat)))
+                .toList(),
+            onChanged: (value) {
+              if (value != null) category = value;
+            },
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             ),
-          ],
-        ),
-        textCancel: "Batal",
-        confirm: CustomButton(
-          text: "Simpan",
-          onPressed: () {
-            addTodo(titleC.text.trim(), descC.text.trim(), category, DateTime.now());
-            Get.back();
-          },
-        ),
-      );
-    }
-  
+          ),
+        ],
+      ),
+      textCancel: "Batal",
+      confirm: CustomButton(
+        text: "Simpan",
+        onPressed: () async {
+          final updatedTodo = {
+            'title': titleC.text.trim(),
+            'description': descC.text.trim(),
+            'category': category,
+            'isDone': todo['isDone'],
+            'dueDate': todo['dueDate'],
+          };
+
+          await dbHelper.updateTodo(todo['id'], updatedTodo);
+          await loadTodos();
+          Get.back();
+        },
+      ),
+    );
+  }
+
+  /// 🔹 Dialog tambah todo
+  void showAddTodoDialog() {
+    final titleC = TextEditingController();
+    final descC = TextEditingController();
+    String category = "Umum";
+
+    Get.defaultDialog(
+      title: "Tambah Todo",
+      content: Column(
+        children: [
+          CustomTextField(hint: "Judul", controller: titleC),
+          const SizedBox(height: 10),
+          CustomTextField(hint: "Deskripsi", controller: descC),
+          const SizedBox(height: 10),
+          DropdownButtonFormField<String>(
+            value: category,
+            items: ["Umum", "Pekerjaan", "Sekolah", "Pribadi"]
+                .map((cat) => DropdownMenuItem(value: cat, child: Text(cat)))
+                .toList(),
+            onChanged: (value) {
+              if (value != null) category = value;
+            },
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            ),
+          ),
+        ],
+      ),
+      textCancel: "Batal",
+      confirm: CustomButton(
+        text: "Simpan",
+        onPressed: () async {
+          await addTodo(titleC.text.trim(), descC.text.trim(), category, DateTime.now());
+          Get.back();
+        },
+      ),
+    );
+  }
 }

@@ -15,8 +15,8 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       final pages = [
-        const HomePage(),
-        const HistoryPage(),
+        HomePage(),
+        HistoryPage(),
         ProfilePage(),
       ];
 

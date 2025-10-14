@@ -5,12 +5,12 @@ import '../widgets/custom_todo_card.dart';
 import '../widgets/app_colors.dart';
 
 class HistoryPage extends StatelessWidget {
-  const HistoryPage({super.key});
+  HistoryPage({super.key});
+  final historyController = Get.find<HistoryController>();
 
   @override
   Widget build(BuildContext context) {
-    final historyController = Get.find<HistoryController>();
-
+    
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -22,11 +22,7 @@ class HistoryPage extends StatelessWidget {
             color: Colors.white,
             letterSpacing: 1.2,
             shadows: [
-              Shadow(
-                offset: Offset(1, 1),
-                blurRadius: 2,
-                color: Colors.black45,
-              ),
+              Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.black45),
             ],
           ),
         ),
@@ -38,16 +34,13 @@ class HistoryPage extends StatelessWidget {
         final history = historyController.historyList;
 
         if (history.isEmpty) {
-          return Center(
+          return const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(Icons.inbox, size: 80, color: Colors.grey),
                 SizedBox(height: 12),
-                Text(
-                  "Belum ada todo selesai",
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
+                Text("Belum ada todo selesai", style: TextStyle(fontSize: 18, color: Colors.grey)),
               ],
             ),
           );
@@ -63,6 +56,7 @@ class HistoryPage extends StatelessWidget {
               todo: todo,
               onMarkAsDone: null,
               onDelete: () => historyController.deleteHistoryAt(index),
+              onEdit: () => historyController.updateTodoDialog(index),
             );
           },
         );
@@ -73,21 +67,17 @@ class HistoryPage extends StatelessWidget {
         return FloatingActionButton.extended(
           backgroundColor: AppColors.error,
           icon: const Icon(Icons.delete_forever, color: Colors.white),
-          label: const Text(
-            "Hapus Semua",
-            style: TextStyle(color: Colors.white),
-          ),
+          label: const Text("Hapus Semua", style: TextStyle(color: Colors.white)),
           onPressed: () {
             Get.defaultDialog(
               title: "Hapus Semua",
-              middleText:
-                  "Apakah kamu yakin ingin menghapus semua todo di history?",
+              middleText: "Apakah kamu yakin ingin menghapus semua todo di history?",
               textCancel: "Batal",
               textConfirm: "Hapus",
               confirmTextColor: Colors.white,
               buttonColor: AppColors.error,
-              onConfirm: () {
-                historyController.clearHistory();
+              onConfirm: () async {
+                await historyController.clearHistory();
                 Get.back();
               },
             );

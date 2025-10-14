@@ -5,12 +5,11 @@ import '../widgets/custom_todo_card.dart';
 import '../widgets/app_colors.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+  final controller = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(HomeController());
-
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -22,11 +21,7 @@ class HomePage extends StatelessWidget {
             color: Colors.white,
             letterSpacing: 1.2,
             shadows: [
-              Shadow(
-                offset: Offset(1, 1),
-                blurRadius: 2,
-                color: Colors.black45,
-              ),
+              Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.black45),
             ],
           ),
         ),
@@ -36,16 +31,13 @@ class HomePage extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.todoList.isEmpty) {
-          return Center(
+          return const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(Icons.inbox, size: 80, color: Colors.grey),
                 SizedBox(height: 12),
-                Text(
-                  "Belum ada todo",
-                  style: TextStyle(fontSize: 18, color: Colors.grey),
-                ),
+                Text("Belum ada todo", style: TextStyle(fontSize: 18, color: Colors.grey)),
               ],
             ),
           );
@@ -60,6 +52,7 @@ class HomePage extends StatelessWidget {
               todo: todo,
               onMarkAsDone: () => controller.markAsDone(index),
               onDelete: () => controller.deleteTodoAt(index),
+              onEdit: () => controller.updateTodoDialog(index),
               showMarkAsDone: true,
             );
           },
@@ -68,9 +61,7 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
         child: const Icon(Icons.add, color: Colors.white),
-        onPressed: () {
-          controller.showAddTodoDialog();
-        },
+        onPressed: controller.showAddTodoDialog,
       ),
     );
   }
